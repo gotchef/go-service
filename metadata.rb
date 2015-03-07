@@ -1,0 +1,7 @@
+name             'go-service'
+maintainer       'Franklin Wise'
+maintainer_email ''
+license          'MIT'
+description      'Installs/Configures go-service'
+long_description 'Installs/Configures go-service'
+version          '0.1.0'
