@@ -1,7 +1,10 @@
-name             'go-service'
-maintainer       'Franklin Wise'
-maintainer_email ''
-license          'MIT'
-description      'Installs/Configures go-service'
-long_description 'Installs/Configures go-service'
-version          '0.1.0'
+name             'go-chef'
+maintainer       'Krave-n, Inc.'
+maintainer_email 'dev-ops@krave-n.com'
+license          'MIT License: Krave-n, Inc'
+description      'utiltiies for installing go apps with chef'
+version          '0.1.1'
+
+
+
+
