@@ -4,10 +4,6 @@ define :go_service_build, :deploy_key => "", :service => {}, :build => {}  do
 	deploy_key = params[:deploy_key]
 	deploy_root = params[:deploy_root]
 
-	if deploy_key.to_s.empty?
-		deploy_key =  IO.read("/opt/deploy_keys/deploy_#{service[:name]}")
-	end
-
 	deploy_root =  '/opt' unless deploy_root.to_s.empty?
 	new_release_dir = Time.now.strftime("%Y-%m-%dT%H%M-%S")
 
