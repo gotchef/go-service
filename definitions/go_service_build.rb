@@ -153,7 +153,7 @@ define :go_service_build, :deploy_key => "", :service => {}, :build => {}  do
 				'HOME' => home
 			})
 			user service[:user]
-			group service:group]
+			group service[:group]
 		end
 	else
 		execute '/usr/local/go/bin/go install -race' do 
