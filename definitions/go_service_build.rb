@@ -3,7 +3,7 @@ define :go_service_build, :deploy_key => "", :service => {}, :build => {}  do
 	build = params[:build]
 	deploy_key = params[:deploy_key]
 	deploy_root = params[:deploy_root]
-
+		
 	deploy_root =  '/opt' unless deploy_root.to_s.empty?
 	new_release_dir = Time.now.strftime("%Y-%m-%dT%H%M-%S")
 
@@ -13,6 +13,7 @@ define :go_service_build, :deploy_key => "", :service => {}, :build => {}  do
 	repo = build[:repository]
 	go_repository = build[:go_repository]
 	if go_repository.to_s.empty? 
+		# get the part that looks like this github.com/project/repo
 		#private syntax git@github.com:root/repot.git
 		if match = repo.gsub(/[-a-zA-Z0-9]+@([a-zA-Z0-9-]+[.][a-zA-Z]+):([-a-zA-Z0-9\/]+)/, '\1/\2')
 			go_repository = match
@@ -81,8 +82,8 @@ define :go_service_build, :deploy_key => "", :service => {}, :build => {}  do
 #	end
 
     prepare_git_checkouts(
-      :user => deploy[:user],
-      :group => deploy[:group],
+      :user => service[:user],
+      :group => service[:group],
       :home => home,
       :ssh_key => deploy_key
     ) 
@@ -94,8 +95,8 @@ define :go_service_build, :deploy_key => "", :service => {}, :build => {}  do
 	parts.each do |dir_name| 
 		current = "#{prev}/#{dir_name}" 
 		directory current do
-			group deploy[:group]
-			owner deploy[:user]
+			group service[:group]
+			owner service[:user]
 			mode "0775"
 			action :create
 			recursive false
@@ -106,21 +107,21 @@ define :go_service_build, :deploy_key => "", :service => {}, :build => {}  do
 
 	#go source
 	directory "#{checkout_to}" do
-		group deploy[:group]
-		owner deploy[:user]
+		group service[:group]
+		owner service[:user]
 		mode "0775"
 		action :create
 		recursive true
 	end
 	
 	git "#{checkout_to}"  do
-		repository "#{deploy[:repository]}"	
+		repository "#{build[:repository]}"	
 		revision branch_name
 		action :sync
 		#envirnoment not supported by opsworks
 		#environment "HOME" => deploy[:home] 
-		user deploy[:user]
-		group deploy[:group]
+		user service[:user]
+		group service[:group]
 	end
 
 	main_dir = checkout_to
@@ -137,8 +138,8 @@ define :go_service_build, :deploy_key => "", :service => {}, :build => {}  do
 			'GOBIN' => "#{go_path}/bin",
 			'HOME' => home
 		})
-		user  deploy[:user]
-		group deploy[:group]
+		user  service[:user]
+		group service[:group]
 		ignore_failure true
 	end
 
@@ -151,8 +152,8 @@ define :go_service_build, :deploy_key => "", :service => {}, :build => {}  do
 				'GOBIN' => "#{go_path}/bin",
 				'HOME' => home
 			})
-			user deploy[:user]
-			group deploy[:group]
+			user service[:user]
+			group service:group]
 		end
 	else
 		execute '/usr/local/go/bin/go install -race' do 
@@ -163,8 +164,8 @@ define :go_service_build, :deploy_key => "", :service => {}, :build => {}  do
 				'GOBIN' => "#{go_path}/bin",
 				'HOME' => home
 			})
-			user deploy[:user]
-			group deploy[:group]
+			user service[:user]
+			group service[:group]
 		end
 	end
 
@@ -173,8 +174,8 @@ define :go_service_build, :deploy_key => "", :service => {}, :build => {}  do
 	
 	link "#{deploy_root}/current" do
 		to "#{go_path}/"
-		owner deploy[:user]
-		group deploy[:group]
+		owner service[:user]
+		group service[:group]
 	end
 
 	go_service_clean_old do
