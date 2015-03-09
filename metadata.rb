@@ -1,7 +1,7 @@
 name             'go-chef'
-maintainer       'Krave-n, Inc.'
-maintainer_email 'dev-ops@krave-n.com'
-license          'MIT License: Krave-n, Inc'
+maintainer       'Franklin Wise'
+maintainer_email ''
+license          'MIT License'
 description      'utiltiies for installing go apps with chef'
 version          '0.1.1'
 
