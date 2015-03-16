@@ -2,12 +2,12 @@ define :go_service_build, :deploy_key => "", :service => {}, :build => {}  do
 	service = params[:service]
 	build = params[:build]
 	deploy_key = params[:deploy_key]
-	deploy_root = params[:deploy_root]
+	install_root = params[:install_root]
 		
-	deploy_root =  '/opt' unless deploy_root.to_s.empty?
+	install_root =  '/opt' unless install_root.to_s.empty?
 	new_release_dir = Time.now.strftime("%Y-%m-%dT%H%M-%S")
 
-	releases_dir = "#{deploy_root}/#{service[:name]}/releases"
+	releases_dir = "#{install_root}/#{service[:name]}/releases"
 	go_path = "#{releases_dir}/#{new_release_dir}"
 
 	repo = build[:repository]
@@ -143,7 +143,8 @@ define :go_service_build, :deploy_key => "", :service => {}, :build => {}  do
 		ignore_failure true
 	end
 
-	if ::File.exists?("#{main_dir}/Makefile")
+	build_cmd = build[:command].to_s.downcase
+	if build_cmd == 'make' and ::File.exists?("#{main_dir}/Makefile")
 		execute 'make install' do 
 			cwd main_dir
 			environment ({
@@ -172,7 +173,7 @@ define :go_service_build, :deploy_key => "", :service => {}, :build => {}  do
 	#be good to also run ginkgo tests
 	#coverage also
 	
-	link "#{deploy_root}/current" do
+	link "#{install_root}/current" do
 		to "#{go_path}/"
 		owner service[:user]
 		group service[:group]

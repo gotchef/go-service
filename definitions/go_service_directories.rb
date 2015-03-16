@@ -4,7 +4,7 @@ define :go_service_directories, :user => '', :group => '', :config_root => '', :
 	config_root = params[:config_root]
 	service_name = params[:service_name]
 
-	service_dir = "#{params[:deploy_root]}/#{service_name}"
+	service_dir = "#{params[:install_root]}/#{service_name}"
 
 	directory "#{service_dir}" do
 		group group

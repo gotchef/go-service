@@ -12,8 +12,8 @@ define :go_service_deploy, :service => nil, :build => nil, :key => "" do
 	group = service[:group]
 	group = user unless !group.to_s.empty?
 	
-	deploy_root = service[:deploy_root]
-	deploy_root	= '/opt' unless !deploy_root.to_s.empty?
+	install_root = service[:install_root]
+	install_root	= '/opt' unless !install_root.to_s.empty?
 
 	home = service[:home]
 	home = "/home/#{user}" unless !home.to_s.empty?
@@ -33,7 +33,7 @@ define :go_service_deploy, :service => nil, :build => nil, :key => "" do
 	go_service_directories do
 		user			user
 		group			group
-		deploy_root		deploy_root
+		install_root	install_root
 		service_name	service_name
 		config_root		config_root
 	end
