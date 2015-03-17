@@ -5,6 +5,7 @@ define :go_service_build, :deploy_key => "", :service => {}, :build => {}  do
 	install_root = params[:install_root]
 		
 	install_root =  '/opt' unless install_root.to_s.empty?
+
 	new_release_dir = Time.now.strftime("%Y-%m-%dT%H%M-%S")
 
 	releases_dir = "#{install_root}/#{service[:name]}/releases"
@@ -29,7 +30,7 @@ define :go_service_build, :deploy_key => "", :service => {}, :build => {}  do
 		go_repository = go_repository.slice 0..(-1 * (ext.length + 1))
 	end
 
-	branch_name = build[:branch]
+	revision = build[:revision]
 
 	#create go root
 	directory "#{go_path}" do
@@ -61,25 +62,6 @@ define :go_service_build, :deploy_key => "", :service => {}, :build => {}  do
 		group service[:group]
 		environment( { "HOME" => home })
 	end
-#	ruby_block "change HOME to #{deploy[:home]} for source checkout" do
-#		block do
-#		ENV['HOME'] = home
-#		end	
-#	end
-	
-	#running as root here
-	#so we can checkout private repos
-#	execute 'git config --global url."git@github.com:".insteadOf "https://github.com/"' do
-#		user 'root'
-#		group 'root'
-#		environment( { "HOME" => home })
-#	end
-
-#	#so we can checkout private repos
-#	execute 'git config --global url."git@github.com:".insteadOf "https://github.com/"' do
-#		user deploy[:user]
-#		group deploy[:group]
-#	end
 
     prepare_git_checkouts(
       :user => service[:user],
@@ -116,7 +98,7 @@ define :go_service_build, :deploy_key => "", :service => {}, :build => {}  do
 	
 	git "#{checkout_to}"  do
 		repository "#{build[:repository]}"	
-		revision branch_name
+		revision revision
 		action :sync
 		#envirnoment not supported by opsworks
 		#environment "HOME" => deploy[:home] 
@@ -182,11 +164,5 @@ define :go_service_build, :deploy_key => "", :service => {}, :build => {}  do
 	go_service_clean_old do
 		releases_dir releases_dir
 	end
-
-#	ruby_block "change HOME back to /root after source checkout" do
-#		block do
-#		ENV['HOME'] = "/root"
-#		end
-#	end	
 
 end

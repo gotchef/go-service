@@ -1,6 +1,5 @@
-module KN
+module GotChef
   module SCM
-    module Package
 
       def ensure_scm_package_installed(scm_type)
         if scm_type == "git"
@@ -17,10 +16,9 @@ module KN
         end
       end
 
-    end
   end
 end
 
 class Chef::Recipe
-  include KN::SCM::Package
+  include GotChef::SCM
 end
