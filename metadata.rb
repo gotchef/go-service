@@ -3,7 +3,7 @@ maintainer       'Franklin Wise'
 maintainer_email ''
 license          'MIT License'
 description      'utiltiies for installing go services with chef'
-version          '0.1.1'
+version          '0.1.2'
 
 
 
