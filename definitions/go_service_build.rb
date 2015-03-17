@@ -155,7 +155,7 @@ define :go_service_build, :deploy_key => "", :service => {}, :build => {}  do
 	#be good to also run ginkgo tests
 	#coverage also
 	
-	link "#{install_root}/current" do
+	link "#{install_root}/#{service[:name]}/current" do
 		to "#{go_path}/"
 		owner service[:user]
 		group service[:group]
