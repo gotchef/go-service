@@ -4,7 +4,7 @@ define :go_service_build, :deploy_key => "", :service => {}, :build => {}  do
 	deploy_key = params[:deploy_key]
 	install_root = params[:install_root]
 		
-	install_root =  '/opt' unless install_root.to_s.empty?
+	install_root =  '/opt' unless !install_root.to_s.empty?
 
 	new_release_dir = Time.now.strftime("%Y-%m-%dT%H%M-%S")
 
