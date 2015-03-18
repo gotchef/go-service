@@ -1,5 +1,5 @@
 
-define :go_service_clean_old do
+define :go_service_clean_old, :releases_dir => '' do
 	releases_dir = params[:releases_dir]
 
 	sorted_dirs = ::Dir["#{releases_dir}/*"].sort.reverse

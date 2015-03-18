@@ -1,4 +1,4 @@
-define :go_service_directories, :user => '', :group => '', :config_root => '', :service_name => '', :deploy_root => '' do
+define :go_service_directories, :user => '', :group => '',  :service_name => '', :config_root => '/etc', :install_root => '/opt' do
 	user = params[:user]
 	group = params[:group]
 	config_root = params[:config_root]

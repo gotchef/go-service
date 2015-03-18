@@ -1,10 +1,9 @@
-define :go_service_build, :deploy_key => "", :service => {}, :build => {}  do
+define :go_service_build, :deploy_key => "", :service => {}, :build => {}, :install_root => '/opt'  do
 	service = params[:service]
 	build = params[:build]
 	deploy_key = params[:deploy_key]
+
 	install_root = params[:install_root]
-		
-	install_root =  '/opt' unless !install_root.to_s.empty?
 
 	new_release_dir = Time.now.strftime("%Y-%m-%dT%H%M-%S")
 
@@ -30,7 +29,6 @@ define :go_service_build, :deploy_key => "", :service => {}, :build => {}  do
 		go_repository = go_repository.slice 0..(-1 * (ext.length + 1))
 	end
 
-	revision = build[:revision]
 
 	#create go root
 	directory "#{go_path}" do
@@ -95,7 +93,10 @@ define :go_service_build, :deploy_key => "", :service => {}, :build => {}  do
 		action :create
 		recursive true
 	end
-	
+
+	revision = build[:revision]
+	revision = 'master' unless !revision.to_s.empty?
+
 	git "#{checkout_to}"  do
 		repository "#{build[:repository]}"	
 		revision revision
