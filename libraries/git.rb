@@ -28,14 +28,6 @@ module GotChef
 		  not_if "grep '^StrictHostKeyChecking no$' #{ssh_home}/.ssh/config"
 		end
 
-		cookbook_file "#{ssh_home}/wrap-ssh4git.sh" do
-			source 'wrap-ssh4git.sh'
-			owner	user
-			group	group
-			mode	'0700'
-		end
-
-
 		if !ssh_key.to_s.empty?
 			# opsworks doesn't support new lines in json, however, vagrant does
 			# thus, this jankyness
