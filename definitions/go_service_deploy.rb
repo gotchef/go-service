@@ -1,8 +1,8 @@
 
-define :go_service_deploy, :service => nil, :build => nil, :key => "", :install_root => '/opt', :config_root => '/etc' do
+define :go_service_deploy, :service => nil, :build => nil, :deploy_key => "", :install_root => '/opt', :config_root => '/etc' do
 	service = params[:service]
 	build = params[:build]
-	key		= params[:key]
+	deploy_key	= params[:deploy_key]
 	install_root = params[:install_root]
 	config_root = params[:config_root]
 
@@ -39,7 +39,7 @@ define :go_service_deploy, :service => nil, :build => nil, :key => "", :install_
 	go_service_build do
 		service		service
 		build		build
-		deploy_key	key
+		deploy_key	deploy_key
 		install_root install_root
 	end
 end
