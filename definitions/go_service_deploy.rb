@@ -17,8 +17,7 @@ define :go_service_deploy, :service => nil, :build => nil, :key => "", :install_
 	home = service[:home]
 	home = "/home/#{user}" unless !home.to_s.empty?
 
-	config_root = service[:config_root]
-	config_root = "/etc" unless !config_root.to_s.empty?
+	config_root = Chef::GoService.config_root(service)
 
 	shell = service[:shell]
 
