@@ -19,7 +19,7 @@ class Chef
 
 			def log_root(service)
 				log_root = service[:log_root]
-				log_root = "/var" unless !log_root.to_s.empty?
+				log_root = "/var/log" unless !log_root.to_s.empty?
 				return log_root
 			end
 			
