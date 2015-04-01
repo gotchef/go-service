@@ -34,7 +34,7 @@ define :go_service_directories, :user => '', :group => '',  :service_name => '',
 	end
 
 	# ln -s /etc/{servicename}
-	link "#{config_root}/#{service_name}" do
+	link "#{Chef::GoService.config_dir(service)}" do
 		to "#{service_dir}/shared/config/"
 	end
 

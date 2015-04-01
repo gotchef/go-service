@@ -28,6 +28,18 @@ class Chef
 				return "#{log_root}/#{service[:name]}"
 			end
 
+			def user(service)
+				user = service[:user]
+				user = service[:name] unless !user.to_s.empty?
+				return user
+			end
+
+			def group(service)
+				group = service[:group]
+				group = user(service) unless !group.to_s.empty?
+				return group
+			end
+
 		end
 	end
 end
