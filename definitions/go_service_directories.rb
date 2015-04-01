@@ -1,10 +1,8 @@
-define :go_service_directories, :user => '', :group => '',  :service_name => '', :config_root => '/etc', :install_root => '/opt' do
+define :go_service_directories, :user => '', :group => '', :config_dir => '', :install_dir => '' do
 	user = params[:user]
 	group = params[:group]
-	config_root = params[:config_root]
-	service_name = params[:service_name]
-
-	service_dir = "#{params[:install_root]}/#{service_name}"
+	config_dir = params[:config_dir]
+	service_dir = params[:install_dir]
 
 	directory "#{service_dir}" do
 		group group
@@ -34,7 +32,7 @@ define :go_service_directories, :user => '', :group => '',  :service_name => '',
 	end
 
 	# ln -s /etc/{servicename}
-	link "#{Chef::GoService.config_dir(service)}" do
+	link config_dir do
 		to "#{service_dir}/shared/config/"
 	end
 

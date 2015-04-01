@@ -1,13 +1,12 @@
-define :go_service_build, :deploy_key => "", :service => {}, :build => {}, :install_root => '/opt'  do
+define :go_service_build, :deploy_key => "", :service => {}, :build => {}, :install_dir => ''  do
 	service = params[:service]
 	build = params[:build]
 	deploy_key = params[:deploy_key]
-
-	install_root = params[:install_root]
+	install_dir= params[:install_dir]
 
 	new_release_dir = Time.now.strftime("%Y-%m-%dT%H%M-%S")
 
-	releases_dir = "#{install_root}/#{service[:name]}/releases"
+	releases_dir = "#{install_dir}/releases"
 	go_path = "#{releases_dir}/#{new_release_dir}"
 
 	repo = build[:repository]
@@ -156,7 +155,7 @@ define :go_service_build, :deploy_key => "", :service => {}, :build => {}, :inst
 	#be good to also run ginkgo tests
 	#coverage also
 	
-	link "#{install_root}/#{service[:name]}/current" do
+	link "#{install_dir}/current" do
 		to "#{go_path}/"
 		owner service[:user]
 		group service[:group]
